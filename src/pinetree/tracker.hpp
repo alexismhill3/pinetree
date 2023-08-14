@@ -58,6 +58,9 @@ class SpeciesTracker {
    * @param copy_number number to add to current copy number count
    */
   void IncrementTranscript(const std::string &transcript_name, int copy_number);
+  void InitializeCollision(const std::string &pol_name);
+  void IncrementCollision(const std::string &pol_name);
+  void ResetCollision();
   /**
    * Add a species-reaction pair to species-reaction map.
    *
@@ -159,6 +162,10 @@ class SpeciesTracker {
    * Species-to-reaction map.
    */
   std::map<std::string, Reaction::VecPtr> species_map_;
+  /**
+  * Polymerase collision counts.
+  */
+  std::map<std::string, int> collisions;
 };
 
 #endif  // header guard
