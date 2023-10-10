@@ -20,6 +20,7 @@ class MainTest(unittest.TestCase):
         test = pd.read_csv(f"tests/output/{prefix}_counts.tsv", sep="\t")
         result = pd.read_csv(f"{out_prefix}_counts.tsv", sep="\t")
         result = result.drop(columns = "collisions") # column not present in original test output
+        result = result.drop(columns = "moves")
         self.assertTrue(test.equals(result))
 
     def test_single_gene(self):

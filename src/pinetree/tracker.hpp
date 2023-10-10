@@ -61,6 +61,9 @@ class SpeciesTracker {
   void InitializeCollision(const std::string &pol_name);
   void IncrementCollision(const std::string &pol_name);
   void ResetCollision();
+  void InitializeMove(const std::string &pol_name);
+  void IncrementMove(const std::string &pol_name);
+  void ResetMove();
   /**
    * Add a species-reaction pair to species-reaction map.
    *
@@ -177,6 +180,7 @@ class SpeciesTracker {
   * Polymerase collision counts.
   */
   std::map<std::string, int> collisions;
+  std::map<std::string, int> moves;
 };
 
 #endif  // header guard

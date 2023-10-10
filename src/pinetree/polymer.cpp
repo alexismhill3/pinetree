@@ -401,6 +401,7 @@ void Polymer::Move(int pol_index) {
 
   // Move polymerase
   pol->Move();
+  SpeciesTracker::Instance().IncrementMove(pol->name());
 
   // Check for upstream polymerase collision
   bool pol_collision = CheckPolCollisions(pol_index);
