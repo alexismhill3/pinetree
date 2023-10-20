@@ -222,6 +222,7 @@ class Polymer : public std::enable_shared_from_this<Polymer> {
   const Mask& GetMask() { return mask_; }
   int num_attached() const { return polymerases_.pair_count(); }
   int attached_pol_start(int index) const { return polymerases_.pol_start(index); }
+  const std::string name() { return name_; }
 
   /**
    * Signal to fire when a polymerase terminates.

@@ -27,6 +27,7 @@ class Gillespie {
    * Getters and setters.
    */
   double time() { return time_; }
+  void GatherPropensities();
 
  private:
   /**

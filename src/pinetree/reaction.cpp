@@ -32,6 +32,9 @@ SpeciesReaction::SpeciesReaction(double rate_constant, double volume,
   if (reactants_.size() == 2) {
     rate_constant_ = rate_constant_ / (AVAGADRO * volume);
   }
+  for (const auto &reactant : reactants_) {
+    name_ += reactant + " ";
+  }
 }
 
 double SpeciesReaction::CalculatePropensity() {

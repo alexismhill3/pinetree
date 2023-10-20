@@ -105,3 +105,25 @@ void Gillespie::Initialize() {
   // }
   initialized_ = true;
 }
+
+void Gillespie::GatherPropensities() {
+  int rna_prop = 0;
+  for (int i = 0; i < reactions_.size(); i++) {
+    std::string name = reactions_[i]->name();
+    if (name == "PolymerWrapper") {
+      std::string polymer_name = reactions_[i]->polymer_name();
+      if (polymer_name == "__rna") {
+        rna_prop += alpha_list_[i];
+      } else {
+        std::cout << polymer_name << ": ";
+        std::cout << alpha_list_[i] << std::endl;
+      }
+    } else {
+      std::cout << name << ": ";
+      std::cout << alpha_list_[i] << std::endl;
+    }
+  }
+  std::cout << "RNA" << ": ";
+  std::cout << rna_prop << std::endl;
+  std::cout << "End of propensity list" << std::endl;
+}

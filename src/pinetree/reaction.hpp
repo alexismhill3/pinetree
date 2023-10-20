@@ -4,6 +4,7 @@
 #define SRC_REACTION_HPP
 
 #include "polymer.hpp"
+
 /**
  * An abstract reaction class. Propensity refers to the reaction propensity, or
  * the probability that this reaction will occur in the next time step. It is a
@@ -37,6 +38,8 @@ class Reaction : public std::enable_shared_from_this<Reaction> {
    */
   virtual int index() const { return index_; }
   virtual void index(int index) { index_ = index; }
+  virtual std::string name() {return "reaction";}
+  virtual const std::string polymer_name() const {return "NA";}
 
  protected:
   /**
@@ -89,6 +92,8 @@ class SpeciesReaction : public Reaction {
    */
   const std::vector<std::string> &reactants() const { return reactants_; }
   const std::vector<std::string> &products() const { return products_; }
+  std::string name() {return name_;}
+
 
  private:
   /**
@@ -103,6 +108,7 @@ class SpeciesReaction : public Reaction {
    * Vector of product names.
    */
   const std::vector<std::string> products_;
+  std::string name_;
 };
 
 /**
@@ -171,6 +177,8 @@ class BindPolymerase : public Bind {
    * Calculate the propensity of binding occurring.
    */
   double CalculatePropensity();
+  std::string name() {return "Bind " + promoter_name_;}
+
 
  private:
   /**
@@ -242,6 +250,8 @@ class PolymerWrapper : public Reaction {
    */
   void index(int index);
   int index() const { return index_; }
+  std::string name() {return "PolymerWrapper";}
+  const std::string polymer_name() const {return polymer_->name();}
 
  private:
   /**
