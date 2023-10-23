@@ -120,6 +120,7 @@ class Model : public std::enable_shared_from_this<Model> {
    * Vector of all polymerases in simulation
    */
   std::vector<Polymerase> polymerases_;
+  double rib_speed;
   /**
    * Cell volume
    */

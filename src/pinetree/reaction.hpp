@@ -40,6 +40,8 @@ class Reaction : public std::enable_shared_from_this<Reaction> {
   virtual void index(int index) { index_ = index; }
   virtual std::string name() {return "reaction";}
   virtual const std::string polymer_name() const {return "NA";}
+  virtual const std::vector<std::string> &reactants() const { return reactants_; }
+  virtual double rate_constant() { return 0.0; }
 
  protected:
   /**
@@ -52,6 +54,7 @@ class Reaction : public std::enable_shared_from_this<Reaction> {
    * Flag to mark reaction for removal.
    */
   bool remove_ = false;
+  std::vector<std::string> reactants_ = std::vector<std::string>{};
 };
 
 /**
@@ -93,6 +96,7 @@ class SpeciesReaction : public Reaction {
   const std::vector<std::string> &reactants() const { return reactants_; }
   const std::vector<std::string> &products() const { return products_; }
   std::string name() {return name_;}
+  double rate_constant() { return rate_constant_; }
 
 
  private:
@@ -142,6 +146,7 @@ class Bind : public Reaction {
    * @return pointer to polymer
    */
   Polymer::Ptr ChoosePolymer();
+  double rate_constant() { return rate_constant_; }
 
  protected:
   /**

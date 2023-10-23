@@ -32,7 +32,7 @@ void Model::Simulate(int time_limit, double time_step,
       countfile.flush();
       tracker.ResetCollision();
       tracker.ResetMove();
-      gillespie_.GatherPropensities();
+      gillespie_.GatherPropensities(rib_speed);
       out_time += time_step;
     }
     gillespie_.Iterate();
@@ -119,6 +119,7 @@ void Model::AddRibosome(int footprint, double mean_speed, int copy_number) {
   tracker.Increment("__ribosome", copy_number);
   tracker.InitializeCollision("__ribosome");
   tracker.InitializeMove("__ribosome");
+  rib_speed = mean_speed;
 }
 
 void Model::RegisterPolymer(Polymer::Ptr polymer) {

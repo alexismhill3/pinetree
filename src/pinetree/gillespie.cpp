@@ -106,7 +106,7 @@ void Gillespie::Initialize() {
   initialized_ = true;
 }
 
-void Gillespie::GatherPropensities() {
+void Gillespie::GatherPropensities(double rib_speed) {
   int rna_prop = 0;
   for (int i = 0; i < reactions_.size(); i++) {
     std::string name = reactions_[i]->name();
@@ -115,15 +115,24 @@ void Gillespie::GatherPropensities() {
       if (polymer_name == "__rna") {
         rna_prop += alpha_list_[i];
       } else {
-        std::cout << polymer_name << ": ";
+        std::cout << "translocate " << polymer_name << " ";
         std::cout << alpha_list_[i] << std::endl;
       }
     } else {
-      std::cout << name << ": ";
-      std::cout << alpha_list_[i] << std::endl;
+      std::cout << name << " ";
+      std::cout << alpha_list_[i] << " ";
+      std::cout << reactions_[i]->rate_constant() << " ";
+      for (auto reactant : reactions_[i]->reactants()) {
+        std::cout << SpeciesTracker::Instance().species(reactant) << " ";
+      }
+      std::cout << std::endl;
     }
   }
-  std::cout << "RNA" << ": ";
-  std::cout << rna_prop << std::endl;
-  std::cout << "End of propensity list" << std::endl;
+  std::cout << "translocate RNA" << " ";
+  std::cout << rna_prop << " ";
+  std::cout << rib_speed << std::endl;
+
+  std::cout << "free ribosomes: ";
+  std::cout << SpeciesTracker::Instance().species("__ribosome") << std::endl;
+  std::cout << "End of propensity list" << std::endl << std::endl;
 }
