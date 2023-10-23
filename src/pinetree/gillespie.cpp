@@ -112,7 +112,7 @@ void Gillespie::GatherPropensities(double rib_speed) {
     std::string name = reactions_[i]->name();
     if (name == "PolymerWrapper") {
       std::string polymer_name = reactions_[i]->polymer_name();
-      if (polymer_name == "__rna") {
+      if (polymer_name == "transcript") {
         rna_prop += alpha_list_[i];
       } else {
         std::cout << "translocate " << polymer_name << " ";
