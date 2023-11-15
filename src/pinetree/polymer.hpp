@@ -474,6 +474,7 @@ class Genome : public Polymer {
   void AddRnaseSite(int start, int stop);
   void AddRnaseSite(const std::string &name, int start, int stop, double rnase_degradation_rate);
   void AddSequence(const std::string &seq);
+  const std::string seq() {return seq_;}
   const std::map<std::string, std::map<std::string, double>> &bindings();
   const std::map<std::string, double> &rnase_bindings() { return rnase_bindings_; }
   const double &transcript_degradation_rate() {
