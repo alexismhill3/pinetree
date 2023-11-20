@@ -43,7 +43,7 @@ void Model::Simulate(int time_limit, double time_step,
           }
         }
         for (auto &codon : total_occupied_codons) {
-          codonfile << gillespie_.time() << codon.first << "\t" << codon.second << std::endl;
+          codonfile << gillespie_.time() << "\t" << codon.first << "\t" << codon.second << std::endl;
         }
       }
       countfile << tracker.GatherCounts(gillespie_.time());
