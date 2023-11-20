@@ -48,7 +48,7 @@ void Model::Simulate(int time_limit, double time_step,
       countfile.flush();
       tracker.ResetCollision();
       tracker.ResetMove();
-      gillespie_.GatherPropensities(rib_speed);
+      // gillespie_.GatherPropensities(rib_speed);
       out_time += time_step;
     }
     gillespie_.Iterate();
