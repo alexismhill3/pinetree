@@ -23,8 +23,10 @@ void Model::Simulate(int time_limit, double time_step,
   Initialize();
   // Set up file output streams
   std::ofstream countfile(output, std::ios::trunc);
+  std::ofstream codonfile("codon_counts.tsv", std::ios::trunc);
   // Output header
   countfile << "time\tspecies\tprotein\ttranscript\tribo_density\tcollisions\tmoves\n";
+  codonfile << "codon\tcount\n";
   double out_time = 0.0;
   while (gillespie_.time() < time_limit) {
     if ((out_time - gillespie_.time()) < 0.001) {
@@ -41,7 +43,7 @@ void Model::Simulate(int time_limit, double time_step,
           }
         }
         for (auto &codon : total_occupied_codons) {
-          std::cout << codon.first << " :" << codon.second << std::endl;
+          codonfile << codon.first << "\t" << codon.second << std::endl;
         }
       }
       countfile << tracker.GatherCounts(gillespie_.time());
