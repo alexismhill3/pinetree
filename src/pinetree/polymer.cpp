@@ -170,6 +170,20 @@ int MobileElementManager::Choose() {
   return pol_index;
 }
 
+std::map<std::string, int> MobileElementManager::occupied_codons() {
+  std::map<std::string, int> occupied_codons;
+  for (auto &pol_pair : polymerases_) {
+    auto pol = pol_pair.first;
+    std::string codon = seq_.substr(pol->stop(), 3);
+    if (occupied_codons.count(codon) == 0) {
+      occupied_codons[codon] = 1;
+    } else {
+      occupied_codons[codon] += 1;
+    }
+  }
+  return occupied_codons;
+}
+
 Polymer::Polymer(const std::string &name, int start, int stop)
     : name_(name),
       start_(start),

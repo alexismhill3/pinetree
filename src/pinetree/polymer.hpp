@@ -88,6 +88,7 @@ class MobileElementManager {
   int pair_count() const { return polymerases_.size(); }
   int pol_start(int index) const { return polymerases_[index].first->start(); }
   void set_sequence(const std::string &seq) { seq_ = seq; }
+  std::map<std::string, int> occupied_codons();
 
  private:
   /**
@@ -432,6 +433,7 @@ class Transcript : public Polymer {
    * so this should only be used when adding transcripts to the simulation directly.
    */
   void AddSequence(const std::string &seq);
+  std::map<std::string, int> occupied_codons() { return polymerases_.occupied_codons(); }
 
  private:
   std::map<std::string, std::map<std::string, double>> bindings_;

@@ -29,17 +29,18 @@ void Model::Simulate(int time_limit, double time_step,
   while (gillespie_.time() < time_limit) {
     if ((out_time - gillespie_.time()) < 0.001) {
       if (!SpeciesTracker::Instance().codon_map().empty()) {
-        std::map<std::string, int> codon_occupancy;
-        for (auto const& pol : polymerases_) {
-          std::string seq = genomes_[0]->seq();
-          std::string codon = seq.substr(pol.stop(), 3);
-          if (codon_occupancy.count(codon) == 0) {
-            codon_occupancy[codon] = 1;
-          } else {
-            codon_occupancy[codon] += 1;
+        std::map<std::string, int> total_occupied_codons;
+        for (auto transcript : transcripts_) {
+          std::map<std::string, int> transcript_codon_counts = transcript->occupied_codons(); 
+          for (auto codon : transcript_codon_counts) {
+            if (total_occupied_codons.count(codon.first) == 0) {
+              total_occupied_codons[codon.first] = codon.second;
+            } else {
+              total_occupied_codons[codon.first] += codon.second;
+            }
           }
         }
-        for (auto const& codon : codon_occupancy) {
+        for (auto &codon : total_occupied_codons) {
           std::cout << codon.first << " :" << codon.second << std::endl;
         }
       }
