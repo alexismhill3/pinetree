@@ -23,7 +23,8 @@ void Model::Simulate(int time_limit, double time_step,
   Initialize();
   // Set up file output streams
   std::ofstream countfile(output, std::ios::trunc);
-  std::ofstream codonfile("codon_counts.tsv", std::ios::trunc);
+  std::string codon_output = output + ".codon";
+  std::ofstream codonfile(codon_output, std::ios::trunc);
   // Output header
   countfile << "time\tspecies\tprotein\ttranscript\tribo_density\tcollisions\tmoves\n";
   codonfile << "time\tcodon\tcount\n";
