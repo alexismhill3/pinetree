@@ -170,6 +170,28 @@ int MobileElementManager::Choose() {
   return pol_index;
 }
 
+std::map<std::string, int> MobileElementManager::GetOccupiedCodonCounts() {
+  // When calling this from the main loop, should first check that
+  // the "seq" string has been set
+  std::map<std::string, int> occupied_codon_counts;
+  //std::cout << "transcript has " << polymerases_.size() << " polymerase(s)" << std::endl;
+  for (int i = 0; i < polymerases_.size(); ++i) {
+    //std::cout << "Checking polymerase: " << i << std::endl;
+    auto pol = GetPol(i);
+    if (pol->name() == "__ribosome") {
+      std::string codon = seq_.substr(pol->stop(), 3);
+      //std::cout << "codon is " << codon << std::endl;
+      if (occupied_codon_counts.count(codon) == 0) {
+        occupied_codon_counts[codon] = 1;
+      } else {
+        occupied_codon_counts[codon] += 1;
+      }
+    }
+  }
+  //std::cout << "returning" << std::endl;
+  return occupied_codon_counts;
+}
+
 Polymer::Polymer(const std::string &name, int start, int stop)
     : name_(name),
       start_(start),

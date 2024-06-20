@@ -23,8 +23,12 @@ void Model::Simulate(int time_limit, double time_step,
   Initialize();
   // Set up file output streams
   std::ofstream countfile(output, std::ios::trunc);
+  std::string occ_file_name = output + ".codon_occupancy";
+  std::ofstream occfile(occ_file_name, std::ios::trunc);
+
   // Output header
   countfile << "time\tspecies\tprotein\ttranscript\tribo_density\tcollisions\n";
+  occfile << "time\tcodon\tcount\n";
   double out_time = 0.0;
   while (gillespie_.time() < time_limit) {
     if ((out_time - gillespie_.time()) < 0.001) {
@@ -32,6 +36,31 @@ void Model::Simulate(int time_limit, double time_step,
       countfile.flush();
       tracker.ResetCollision();
       out_time += time_step;
+
+      // new code
+      //
+      // get occupied codon counts for each transcript
+      std::map<std::string, int> occupied_codon_counts;
+      int i = 0;
+      for (auto transcript : transcripts_) {
+        //std::cout << "Checking transcript " << i << std::endl;
+        auto tmp = transcript->GetOccupiedCodonCounts();
+        //std::cout << "Retrieved codon counts for transcript " << i << std::endl;
+        for (auto codon : tmp) {
+          if (occupied_codon_counts.count(codon.first) == 0) {
+            occupied_codon_counts[codon.first] = codon.second;
+          } else {
+            occupied_codon_counts[codon.first] += codon.second;
+          }
+        }
+        i++;
+      }
+      // output codon counts
+      for (const auto& codon : occupied_codon_counts) {
+        //std::cout << codon.first << ": " << codon.second << std::endl;
+        occfile << gillespie_.time() << "\t" << codon.first << "\t" << codon.second << "\n";
+      }
+      //std::cout << "finished codon occupancy count" << std::endl;
     }
     gillespie_.Iterate();
   }

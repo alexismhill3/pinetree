@@ -88,6 +88,8 @@ class MobileElementManager {
   int pair_count() const { return polymerases_.size(); }
   int pol_start(int index) const { return polymerases_[index].first->start(); }
   void set_sequence(const std::string &seq) { seq_ = seq; }
+  std::map<std::string, int> GetOccupiedCodonCounts();
+
 
  private:
   /**
@@ -222,6 +224,7 @@ class Polymer : public std::enable_shared_from_this<Polymer> {
   const Mask& GetMask() { return mask_; }
   int num_attached() const { return polymerases_.pair_count(); }
   int attached_pol_start(int index) const { return polymerases_.pol_start(index); }
+  std::map<std::string, int> GetOccupiedCodonCounts() { return polymerases_.GetOccupiedCodonCounts(); }
 
   /**
    * Signal to fire when a polymerase terminates.
