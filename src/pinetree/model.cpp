@@ -59,6 +59,7 @@ void Model::Simulate(int time_limit, double time_step,
       for (const auto& codon : occupied_codon_counts) {
         //std::cout << codon.first << ": " << codon.second << std::endl;
         occfile << gillespie_.time() << "\t" << codon.first << "\t" << codon.second << "\n";
+        occfile.flush();
       }
       //std::cout << "finished codon occupancy count" << std::endl;
     }
